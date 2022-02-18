@@ -31,17 +31,27 @@ Our pruned model shows consistently lower perplexity within a comparable paramet
    * attention output scaling
 
 ---
+## Performance
+Our All-attention based model and Transformer-XL[2] baselines achieve almost same perplexity and the parameter size. (53.8M)
+With the same parameter size, our models with attention head pruning achieve substantially better parameter efficiency than the TXL models. 
+For example, pruned All-att model with 43% sparsity (30.7M) achieves similar perplexity as TXL with only 25% sparsity (47.9M).
+For all sparsity levels, our method achieves much less perplexity compared to TXL.
+
+[2] Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context https://arxiv.org/abs/1901.02860 
+
+---
 ## How to Run
 
 You should first prepare the WikiText-103 dataset and change the dataset directory in JSON configurations.
 
 #### Step 1. Train the baseline
 This step trains the baseline All-attention transformer, which is very similar to the Transformer-XL.
-```torch.distributed.launch --nproc_per_node NUM_GPUS train.py --config config/wt103_all_16l_train.json```
+```python launch.py --nproc_per_node NUM_GPUS train.py --config config/wt103_all_16l_train.json```
 
 #### Step 2. Prune the model
 This step prunes out less important attention heads from the fully converged model.
-```torch.distributed.launch --nproc_per_node NUM_GPUS train_gating.py --config config/wt103_all_16l_train_gating.json```
+```python launch.py --nproc_per_node NUM_GPUS train_gating.py --config config/wt103_all_16l_train_gating.json```
+You can control the final sparsity by changing the value `l0_coefficient` inside the config JSON.
 
 #### Step 3. Evaluate the Speed
 To evaluate the actual inference speed, you can put your pruned results into the script and run the code.

@@ -1,0 +1,106 @@
+{
+    "project": "HeadGatingTransformer",
+    "name": "wt103-all-16L-2048-gating-0.02",
+    "run_type": "train",
+    "resume": false,
+    "checkpoint": null,
+    "save_dir": "result",
+    "seed": 87245,
+    "gpus": 8,
+    "model": {
+        "num_layers": 16,
+        "num_heads": 8,
+        "hidden_dim": 512,
+        "feedforward_dim": 2048,
+        "attn_drop_prob": 0.2,
+        "proj_drop_prob": 0.1,
+        "qkv_drop_prob": 0.0,
+        "input_drop_prob": 0.1,
+        "output_drop_prob": 0.1,
+        "word_drop_prob": 0.1,
+        "axial_drop": false,
+        "attn_bias": false,
+        "share_r_bias": false,
+        "div_value": 4,
+        "tie_weight": true,
+        "tie_proj": true,
+        "cutoffs": [20000, 40000, 200000],
+        "pos_clamp_length": 512,
+        "pre_norm": true,
+        "max_len": 512,
+        "same_length": true
+    },
+    "custom": {
+        "l0_coefficient": 0.02,
+        "l0_start_epoch": 0,
+        "l0_warmup_epoch": 1
+    },
+    "wandb": {
+        "mode": "online",
+        "notes": null
+    },
+    "augment": {
+        "num_swap": 0,
+        "num_replace": 0
+    },
+    "dataset": {
+        "train_dataset": {
+            "name": "HappyWikitext103",
+            "data_dir": "/home/khshim/data/wikitext-103",
+            "mode": "train"
+        },
+        "valid_dataset": {
+            "name": "HappyWikitext103",
+            "data_dir": "/home/khshim/data/wikitext-103",
+            "mode": "valid"
+        },
+        "test_dataset": {
+            "name": "HappyWikitext103",
+            "data_dir": "/home/khshim/data/wikitext-103",
+            "mode": "test"
+        }
+    },
+    "dataloader": {
+        "train_dataloader": {
+            "batch_size": 192,
+            "seq_length": 192,
+            "mem_length": 192,
+            "overlap_length": 0
+        },
+        "valid_dataloader": {
+            "batch_size": 192,
+            "seq_length": 192,
+            "mem_length": 192,
+            "overlap_length": 0
+        },
+        "test_dataloader": {
+            "batch_size": 64,
+            "seq_length": 192,
+            "mem_length": 192,
+            "overlap_length": 0
+        }
+    },
+    "optimizer": {
+        "name": "HappyLamb",
+        "lr": 0.0001,
+        "betas": [0.9, 0.999],
+        "weight_decay": 0.0
+    },
+    "scheduler": {
+        "name": "HappyConstantLR",
+        "warmup_updates": 0,
+        "mode": "min"
+    },
+    "losses": null,
+    "metrics": null,
+    "trainer": {
+        "max_epochs": 10,
+        "print_interval": 50,
+        "log_interval": 50,
+        "valid_interval": 0.15,
+        "clip_grad_norm": 0.5,
+        "fp16": true,
+        "init_grad_scale": 4096.0,
+        "test_with_valid": true
+    }
+}

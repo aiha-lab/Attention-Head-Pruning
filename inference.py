@@ -2,9 +2,9 @@ import torch
 
 from all_transformer_xl import AllTransformerLM
 from all_transformerl_xl_infer import AllTransformerLMInfer
-from happy_torch.utils.tracker import TimeTracker
+from nnlib.utils.tracker import TimeTracker
 
-from happy_torch.models.transformer_xl import MemoryTransformer
+from nnlib.models.transformer_xl import MemoryTransformer
 
 hidden_dim = 512
 num_heads = 8

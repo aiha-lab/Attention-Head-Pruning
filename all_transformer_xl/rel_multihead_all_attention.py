@@ -4,9 +4,9 @@ import math
 import torch.nn as tnn
 import torch.nn.functional as F
 
-import happy_torch.nn as nn
-from happy_torch.nn.transformer.multihead_attention import _MultiheadAttentionBase
-from happy_torch.nn.transformer.utils import apply_attn_mask
+import nnlib.nn as nn
+from nnlib.nn.transformer.multihead_attention import _MultiheadAttentionBase
+from nnlib.nn.transformer.utils import apply_attn_mask
 
 from .simple_gating import SimpleGating
 

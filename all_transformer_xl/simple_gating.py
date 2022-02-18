@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 import math
 import torch
 
-import happy_torch.nn as nn
+import nnlib.nn as nn
 
 
 class SimpleGating(nn.BaseModule):

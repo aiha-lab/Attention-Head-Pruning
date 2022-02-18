@@ -1,10 +1,10 @@
 from typing import Optional, Tuple
 import torch
 
-import happy_torch.nn as nn
+import nnlib.nn as nn
 
 from all_transformer_xl.rel_multihead_all_attention import RelativeMultiheadAllAttention
-from happy_torch.nn.transformer.projection import ProjectionResidualNorm, ProjectionResidual
+from nnlib.nn.transformer.projection import ProjectionResidualNorm, ProjectionResidual
 
 
 class RelativeAllTransformerLayer(nn.BaseModule):
@@ -73,7 +73,7 @@ class RelativeAllTransformerLayer(nn.BaseModule):
 
 
 if __name__ == '__main__':
-    from happy_torch.models.transformer_xl.rel_transformer_layer import RelativeTransformerLayer
+    from nnlib.models.transformer_xl.rel_transformer_layer import RelativeTransformerLayer
 
     m1 = RelativeTransformerLayer(512, 8, 2048, pre_norm=True)
     m2 = RelativeAllTransformerLayer(512, 8, 2048, pre_norm=True)

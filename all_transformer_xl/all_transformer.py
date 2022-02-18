@@ -3,8 +3,8 @@ import math
 import torch
 import torch.nn as tnn
 
-import happy_torch.nn as nn
-from happy_torch.nn.transformer import SinusoidalPositionalEncoding
+import nnlib.nn as nn
+from nnlib.nn.transformer import SinusoidalPositionalEncoding
 from .rel_all_transformer_layer import RelativeAllTransformerLayer
 
 

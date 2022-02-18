@@ -10,7 +10,7 @@ import torch
 import torch.cuda.amp as amp
 
 from nnlib.data.datasets import build_dataset
-from nnlib.data.text import LMIterator
+from nnlib.data.helpers import AutoRegressiveLMIterator as LMIterator
 from nnlib.data.transforms import WordAugment
 
 from all_transformer_xl import AllTransformerLM
@@ -18,12 +18,11 @@ from nnlib.nn import HappyDistributedDataParallel
 from nnlib.optim import build_optimizer
 from nnlib.optim.lr_scheduler import build_scheduler
 from nnlib.trainer import BaseTrainer, BaseCompositeModel
-from nnlib.utils.dist_utils import (init_distributed, is_master, get_world_size, get_rank,
-                                    split_dataloader_config, all_reduce_tensor)
-from nnlib.utils.param_utils import compute_param_norm, print_params, nan_exist
+from nnlib.utils.dist_utils import init_distributed, is_master, get_world_size, get_rank, all_reduce_tensor
+from nnlib.utils.param_utils import compute_param_norm, print_params
 from nnlib.utils.print_utils import time_log, print_log
-from nnlib.utils.seed_utils import torch_init
-from nnlib.utils.config_utils import override_config, override_config_by_key_value
+from nnlib.utils.seed_utils import init_seed
+from nnlib.utils.config_utils import override_config, override_config_by_key_value, split_data_config
 from nnlib.utils.tracker import MetricTrackerDict
 
 
@@ -33,8 +32,8 @@ class LMCompositeModel(BaseCompositeModel):
         super(LMCompositeModel, self).__init__(network, losses, loss_coefficients, metrics)
 
     def forward(self, input_: torch.Tensor, target_: Optional[torch.Tensor],
-                     memory_: Optional[List[torch.Tensor]] = None
-                     ) -> Tuple[Dict[str, torch.Tensor], Optional[List[torch.Tensor]]]:
+                memory_: Optional[List[torch.Tensor]] = None
+                ) -> Tuple[Dict[str, torch.Tensor], Optional[List[torch.Tensor]]]:
         output = dict()
         if target_ is None:
             prob_, _, _, new_memory = self.network(input_, target_, memory_)
@@ -402,7 +401,7 @@ def run(cfg: Dict):
     # ======================================================================================== #
     # Init
     # ======================================================================================== #
-    torch_init(cfg['seed'] + local_rank)  # different seed for different GPUs
+    init_seed(cfg['seed'] + local_rank)  # different seed for different GPUs
     run_type = cfg['run_type']
     save_dir = cfg['save_dir']
     if is_master():
@@ -428,7 +427,7 @@ def run(cfg: Dict):
     # Distributed
     # ======================================================================================== #
     if is_distributed:
-        cfg = split_dataloader_config(cfg, world_size, local_rank)
+        cfg = split_data_config(cfg, world_size, local_rank)
 
     # ======================================================================================== #
     # Create Dataset

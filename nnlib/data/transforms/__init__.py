@@ -7,7 +7,7 @@ from nnlib.nn import Sequential
 
 __all__ = [
     "build_transforms", "register_transform", "BaseTransform", "IndexCompose",
-    "SentencePieceWrapper", "GraphemeWrapper",
+    "SentencePieceWrapper", "GraphemeWrapper", "WordAugment"
 ]
 
 TRANSFORM_REGISTRY = {}
@@ -36,6 +36,7 @@ from .transform import BaseTransform
 from .compose import IndexCompose
 from .sentencepiece import SentencePieceWrapper
 from .grapheme import GraphemeWrapper
+from .wordaug import WordAugment
 
 
 # -------------------------------------------------------------------------------- #

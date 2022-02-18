@@ -4,18 +4,20 @@ from all_transformer_xl import AllTransformerLM
 from all_transformerl_xl_infer import AllTransformerLMInfer
 from nnlib.utils.tracker import TimeTracker
 
-from nnlib.models.transformer_xl import MemoryTransformer
+# from nnlib.models.transformer_xl import MemoryTransformer
 
 hidden_dim = 512
 num_heads = 8
 feedforward_dim = 2048
 
+# For word-level LM (WikiText-103)
 num_tokens = 267735
 div_value = 4
 cutoffs = (20000, 40000, 200000)
 num_layers = 16
 seq_len = 192
 
+# For character-level LM (Text8)
 # num_tokens = 28
 # div_value = 1
 # cutoffs = ()
@@ -48,6 +50,7 @@ infer_network = AllTransformerLMInfer(num_tokens, num_layers, hidden_dim, num_he
 infer_network.eval()
 infer_network.to('cuda')
 
+# Comparison to TransformerXL
 # xl_dim = 384
 #
 # xl_network = MemoryTransformer(num_tokens, num_layers, xl_dim, num_heads, xl_dim * 4,

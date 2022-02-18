@@ -1,8 +1,8 @@
 from typing import Dict, Union, Any
 import torch
 
-from happy_torch.data.transforms import register_transform
-from happy_torch.data.transforms.transform import BaseTransform
+from nnlib.data.transforms import register_transform
+from nnlib.data.transforms.transform import BaseTransform
 
 
 @register_transform("WordAugment")

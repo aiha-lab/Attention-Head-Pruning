@@ -546,7 +546,7 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=str, help='Run configuration', required=True)
     # override config by json
     parser.add_argument('--override', default=None, type=str, help='Override configuration')
-    # override by command line (highest priority)
+    # override by command line (the highest priority)
     parser.add_argument('--data_dir', default=None, type=str, help='Data directory')
     parser.add_argument('--run_type', default=None, type=str, help='Run type')
     parser.add_argument('--gpus', default=None, type=int, help='Number of GPUs to use')

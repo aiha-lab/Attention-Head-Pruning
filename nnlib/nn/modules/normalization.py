@@ -73,7 +73,6 @@ class GroupNorm(BaseModule):
 
 
 class GroupLayerNorm(BaseModule):
-    # TODO something wrong. each group should have its own parameters
 
     def __init__(self,
                  normalized_shape: int,

@@ -42,7 +42,6 @@ class SimpleGating(nn.BaseModule):
             out = out + (out_hard - out).detach()
             sparsity = torch.eq(out, 0).sum()
         else:
-            # TODO different to train-test
             sparsity = torch.less(out, self.threshold).float().sum()
 
         l0_loss = torch.sigmoid(self.gate() - self.loss_constant)

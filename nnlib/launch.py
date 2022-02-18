@@ -97,7 +97,6 @@ def main():
         processes.append(process)
 
     # -------------------------------------------------------------------------------- #
-    # TODO match recently introduced PyTorch/distributed/run
     print("-" * 72)
     try:
         up = True

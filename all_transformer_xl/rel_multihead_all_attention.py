@@ -104,8 +104,6 @@ class RelativeMultiheadAllAttention(_MultiheadAttentionBase):
         v = self.v_proj(kv_query_state)  # (batch_size, memory_len + target_len, hidden_dim)
         source_len = k.shape[1]
 
-        # TODO add qkv_drop
-
         rk = self.r_proj(rel_pos)  # (1, memory_len + target_len (* 2), hidden_dim)
         rk = rk[:, -source_len:, :]
         if rk.shape[1] != source_len:

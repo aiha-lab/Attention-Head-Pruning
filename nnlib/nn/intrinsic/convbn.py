@@ -111,7 +111,6 @@ class ConvBn2d(BaseModule):
         gamma = self.bn.weight() if (self.bn.weight is not None) else 1.0
         beta = self.bn.bias() if (self.bn.bias is not None) else 0.0
 
-        # TODO actually we need to compute input mean/var if track_running_stats is False.
         running_mean = self.bn.running_mean().clone().detach() if (self.bn.running_mean is not None) else 0.0
         running_var = self.bn.running_var().clone().detach() if (self.bn.running_var is not None) else 1.0
         running_inv_std = torch.rsqrt(running_var + self.bn.eps) if (self.bn.running_var is not None) else 1.0

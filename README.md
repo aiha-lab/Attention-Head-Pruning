@@ -9,7 +9,9 @@ Kyuhong Shim, Iksoo Choi, Wonyong Sung, Jungwook Choi
 * ISOCC 2021 version (2p): https://ieeexplore.ieee.org/document/9613933
 * Arxiv version (6p): https://arxiv.org/abs/2110.03252
 
----
+
+
+
 ## Summary
 
 Attention head pruning, which removes unnecessary attention heads in the multihead attention, is a promising technique to reduce the burden of heavy Transformer computation. 
@@ -20,7 +22,9 @@ Our pruned model shows consistently lower perplexity within a comparable paramet
 
 [1] Augmenting Self-Attention with Persistent Memory https://arxiv.org/abs/1907.01470
 
----
+
+
+
 ## Key contributions
  
 1. We implement All-attention transformer for the autoregressive language modeling.
@@ -30,7 +34,9 @@ Our pruned model shows consistently lower perplexity within a comparable paramet
    * proper initialization
    * attention output scaling
 
----
+
+
+
 ## Performance
 Our All-attention based model and Transformer-XL[2] baselines achieve almost same perplexity and the parameter size. (53.8M)
 With the same parameter size, our models with attention head pruning achieve substantially better parameter efficiency than the TXL models. 
@@ -39,7 +45,9 @@ For all sparsity levels, our method achieves much less perplexity compared to TX
 
 [2] Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context https://arxiv.org/abs/1901.02860 
 
----
+
+
+
 ## How to Run
 
 You should first prepare the WikiText-103 dataset and change the dataset directory in JSON configurations.

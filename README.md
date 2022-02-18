@@ -54,13 +54,17 @@ You should first prepare the WikiText-103 dataset and change the dataset directo
 
 #### Step 1. Train the baseline
 This step trains the baseline All-attention transformer, which is very similar to the Transformer-XL.
+
 ```python launch.py --nproc_per_node NUM_GPUS train.py --config config/wt103_all_16l_train.json```
 
 #### Step 2. Prune the model
 This step prunes out less important attention heads from the fully converged model.
+
 ```python launch.py --nproc_per_node NUM_GPUS train_gating.py --config config/wt103_all_16l_train_gating.json```
+
 You can control the final sparsity by changing the value `l0_coefficient` inside the config JSON.
 
 #### Step 3. Evaluate the Speed
 To evaluate the actual inference speed, you can put your pruned results into the script and run the code.
+
 ```python inference.py```

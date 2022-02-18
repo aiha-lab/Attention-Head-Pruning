@@ -70,7 +70,7 @@ class LMTrainer(BaseTrainer):
         else:
             self.model.network.set_same_length(flag)
 
-    def train_epoch_body(self):
+    def train_epoch_body(self, dataloader=None):
         self.model.train()
         self.train_metric_tracker.reset()
         self.set_length('train')
@@ -101,7 +101,7 @@ class LMTrainer(BaseTrainer):
                 self.optimizer.zero_grad(set_to_none=True)
                 grad_scale = None
 
-                if not self.is_fp16:
+                if not self.fp16:
                     train_output, memory = self.model(train_input, train_label, memory)
                     loss = train_output['loss']
                     l0_loss = train_output['l0_loss']
@@ -180,7 +180,7 @@ class LMTrainer(BaseTrainer):
                 })
 
                 if is_master():
-                    if (train_iter % self.print_interval == 0) and (train_iter > 0):
+                    if (train_iter % self.print_interval_iters == 0) and (train_iter > 0):
                         s = time_log() + '\n'
                         s += f'...... Iter {train_iter} / {len(self.train_dataloader)} ' \
                              f'(epoch: {self.current_epoch} / {self.max_epochs})\n'
@@ -211,7 +211,7 @@ class LMTrainer(BaseTrainer):
                             s += f'\n...... Gradient scaler: {grad_scale:.4f}'
                         self.print(s)
 
-                    if self.current_iteration % self.log_interval == 0:
+                    if self.current_iteration % self.log_interval_iters == 0:
                         wandb.log({
                             'train_loss': loss.item(),
                             'train_ppl': math.exp(loss.item()),
@@ -225,8 +225,8 @@ class LMTrainer(BaseTrainer):
                         })
 
                 # ---------------------------------------------- #
-                if (0 < self.valid_interval < 1) and (
-                        train_iter % int(self.valid_interval * len(self.train_dataloader)) == 0) and (
+                if (0 < self.valid_interval_epochs < 1) and (
+                        train_iter % int(self.valid_interval_epochs * len(self.train_dataloader)) == 0) and (
                         train_iter > 0):
                     self.valid()
 
@@ -243,7 +243,7 @@ class LMTrainer(BaseTrainer):
             self.print(f'Save LATEST state_dict to {save_path}')
             torch.save(self.state_dict(), save_path)
 
-    def valid_body(self, *, track: bool = True):
+    def valid_body(self, dataloader=None, *, track: bool = True):
         self.model.eval()
         self.valid_metric_tracker.reset()
         self.set_length('valid')
@@ -314,7 +314,7 @@ class LMTrainer(BaseTrainer):
             self.print(f'Save Epoch {self.current_epoch} state_dict to {save_path}')
             torch.save(self.state_dict(), save_path)
 
-    def test_body(self):
+    def test_body(self, dataloader=None):
         self.model.eval()
         self.valid_metric_tracker.reset()  # reuse
         self.set_length('test')
@@ -441,11 +441,11 @@ def run(cfg: Dict):
     # ======================================================================================== #
     # Create DataLoader
     # ======================================================================================== #
-    train_dataloader = LMIterator.from_config(cfg['dataloader']['train_dataloader'], train_dataset.data,
+    train_dataloader = LMIterator.from_config(cfg['dataloader']['train_dataloader'], train_dataset,
                                               local_rank, world_size)
-    valid_dataloader = LMIterator.from_config(cfg['dataloader']['valid_dataloader'], valid_dataset.data,
+    valid_dataloader = LMIterator.from_config(cfg['dataloader']['valid_dataloader'], valid_dataset,
                                               local_rank, world_size)
-    test_dataloader = LMIterator.from_config(cfg['dataloader']['test_dataloader'], test_dataset.data,
+    test_dataloader = LMIterator.from_config(cfg['dataloader']['test_dataloader'], test_dataset,
                                              local_rank, world_size)
 
     # currently don't recommend to use

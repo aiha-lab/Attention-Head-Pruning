@@ -88,19 +88,19 @@
     },
     "scheduler": {
         "name": "HappyConstantLR",
-        "warmup_updates": 0,
+        "warmup_iterations": 0,
         "mode": "min"
     },
     "losses": null,
     "metrics": null,
     "trainer": {
-        "max_epochs": 10,
-        "print_interval": 50,
-        "log_interval": 50,
-        "valid_interval": 0.15,
+        "max_epochs": 20,
+        "print_interval_iters": 50,
+        "log_interval_iters": 25,
+        "valid_interval_epochs": 0.275,
         "clip_grad_norm": 0.5,
         "fp16": true,
-        "init_grad_scale": 4096.0,
-        "test_with_valid": true
+        "fp16_init_scale": 4096.0,
+        "run_test_with_valid": false
     }
 }

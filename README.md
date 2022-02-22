@@ -9,7 +9,7 @@ Kyuhong Shim, Iksoo Choi, Wonyong Sung, Jungwook Choi
 * ISOCC 2021 version (2p): https://ieeexplore.ieee.org/document/9613933
 * Arxiv version (6p): https://arxiv.org/abs/2110.03252
 
-
+This repository is under GPL-3.0 license.
 
 
 ## Summary
